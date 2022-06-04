@@ -1,0 +1,21 @@
+{% extends 'posts/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+<body>
+    {% block content %}
+    {% for post in posts %}
+    <strong>{{ post.user.name}}</strong> <br>
+    <img src="{{ post.image.url }}" alt="female-flower" class="img-responsive" style="width: 400; height:400;" >
+    <p><em>{{ post.time_posted}}</em></p>
+    <p>{{ post.caption }}</p>
+    {% endfor %}
+    {% endblock %}
+</body>
+</html>

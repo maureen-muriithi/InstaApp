@@ -9,7 +9,7 @@ class Post(models.Model):
     '''
     This is equivalent to the image model. Users make posts with images, captions and other things.
     '''
-    image = models.ImageField(upload_to = ('images/'), default="")
+    image = models.ImageField(upload_to = ('posts/'), default="")
     name = models.CharField(max_length=30)
     caption = models.CharField(max_length=250, blank=True)
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
