@@ -14,7 +14,6 @@ class Post(models.Model):
     caption = models.CharField(max_length=250, blank=True)
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     likes = models.IntegerField(default=0)
-    comment= models.ForeignKey()
     time_posted = models.DateTimeField(auto_now_add=True, null=True)
 
 
@@ -28,14 +27,14 @@ class Post(models.Model):
         self.delete()
     
     def __str__(self):
-        return self.title
+        return self.name
     
     # @classmethod
     # def update_image(cls,current_value,new_value):
     #     updated_image = Post.objects.filter(user=current_value).update(user=new_value)
     #     return updated_image
 
-class comment(models.Model):
+class Comment(models.Model):
     '''
     This class acts as a model where users can comment on posts
     '''
