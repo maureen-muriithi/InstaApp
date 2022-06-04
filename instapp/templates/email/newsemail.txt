@@ -1,0 +1,5 @@
+Hello {{name}}
+
+Congratulations for successfuly joining the InstaApp Family.
+
+Welcome, enjoy unlimited posting, browsing and commenting on posts that interest you. Like, Share and Enjoy!!
