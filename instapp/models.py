@@ -12,7 +12,7 @@ class Post(models.Model):
     image = models.ImageField(upload_to = ('posts/'), default="")
     name = models.CharField(max_length=30)
     caption = models.CharField(max_length=250, blank=True)
-    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, blank=True, related_name='posts', on_delete=models.CASCADE)
     likes = models.IntegerField(default=0)
     time_posted = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -38,9 +38,9 @@ class Comment(models.Model):
     '''
     This class acts as a model where users can comment on posts
     '''
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     comment = models.TextField()
-    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='comments')
     time_posted = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
@@ -50,7 +50,7 @@ class Profile(models.Model):
     '''
     Class to display a users profile/details
     '''
-    user = models.OneToOneField(User, on_delete=models.CASCADE, )
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile' )
     profile_picture = models.ImageField(upload_to='images/', default='default_1.jpg')
     bio = models.TextField(max_length=500, default="My Bio", blank=True)
     name = models.CharField(blank=True, max_length=120)

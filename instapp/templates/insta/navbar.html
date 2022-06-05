@@ -1,4 +1,7 @@
-<nav class="navbar navbar-inverse">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+  crossorigin="anonymous">
+
+<nav class="navbar navbar-inverse bg-dark text-white">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="{% url 'posts' %}">InstApp</a>
@@ -27,7 +30,7 @@
                 </a>
           <ul class="dropdown-menu" role="menu">
             <li>
-              <a href="{%url 'index'%}">Home</a>
+              <a href="{% url 'profile' user.username %}">{{ user.username }}</a>
             </li>
             <li>
               <a href="{%url 'posts' %}">Create Post</a>
@@ -51,3 +54,4 @@
     </div>
   </div>
 </nav>
+

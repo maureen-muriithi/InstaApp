@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from django.views.generic.list import ListView
 import datetime as dt
 from .models import Post, Profile
@@ -6,6 +7,7 @@ from .email import send_welcome_email
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
+from .forms import UpdateProfileForm
 
 
 
@@ -36,18 +38,30 @@ def display_posts(request):
 
 @login_required(login_url='/accounts/login/')
 def profile(request, username):
+    # images = request.profile.user.posts.all()
     user = User.objects.get(username=username)
     if not user:
         return redirect('home')
+    if request.method == 'POST':
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            return HttpResponseRedirect(request.path_info)
+    else:
+        profile_form = UpdateProfileForm(instance=request.user.profile)
+
 
     profile = Profile.objects.get(user=user)
+
     args = {
         'username': username,
         'user': user,
-        'profile': profile
+        'profile': profile,
+        # 'images': images,
+        'profile_form': profile_form,
     }
     print(profile.user.username)
-    print(profile.image)
+    print(profile.profile_picture)
     return render(request, 'insta/profile.html', args)
 
 @login_required(login_url='/accounts/login')
