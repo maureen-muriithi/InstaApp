@@ -5,7 +5,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('posts/', views.display_posts, name='posts')
+    path('posts/', views.display_posts, name='posts'),
+    path('profile/<username>/', views.profile, name='profile'),
+    path('search/', views.search_profile, name='search'),
+
 ]
 
 if settings.DEBUG:
