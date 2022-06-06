@@ -14,7 +14,17 @@ from .forms import UpdateProfileForm, CommentForm
 # Create your views here.
 def index(request):
     title = 'Welcome to Instagram'
-    return render(request, 'insta/index.html', {"title": title})
+    date = dt.date.today()
+    posts = Post.objects.all()
+    users = User.objects.exclude(id=request.user.id)
+
+    args = {
+        "date": date,
+        "posts": posts,
+        "users": users,
+        "title": title,
+    }
+    return render(request, 'insta/index.html', args)
 
 # def register(request):
 #     if request.method == 'POST':
