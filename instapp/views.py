@@ -17,11 +17,12 @@ def index(request):
     date = dt.date.today()
     posts = Post.objects.all()
     users = User.objects.exclude(id=request.user.id)
-
+    form = CommentForm
     args = {
         "date": date,
         "posts": posts,
         "users": users,
+        "form" : form
     }
     return render(request, 'insta/index.html', args)
 
@@ -104,9 +105,10 @@ def add_comment(request, post_id):
             comment.user = request.user
             comment.post = post
             comment.save()
-            return HttpResponseRedirect(request.path_info)
+            return redirect("index")
     else:
         form = CommentForm()
+        
         args = {
         'post': post,
         'form': form,

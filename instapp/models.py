@@ -1,7 +1,6 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.urls import reverse
 
 
 # Create your models here.
@@ -16,9 +15,6 @@ class Post(models.Model):
     likes = models.IntegerField(default=0)
     time_posted = models.DateTimeField(auto_now_add=True, null=True)
 
-
-    def get_absolute_url(self):
-        return reverse('index')
 
     def save_image(self):
         self.save()
@@ -36,11 +32,7 @@ class Post(models.Model):
     def __str__(self):
         return self.name
     
-    # @classmethod
-    # def update_image(cls,current_value,new_value):
-    #     updated_image = Post.objects.filter(user=current_value).update(user=new_value)
-    #     return updated_image
-
+   
 class Comment(models.Model):
     '''
     This class acts as a model where users can comment on posts
@@ -49,6 +41,12 @@ class Comment(models.Model):
     comment = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='comments')
     time_posted = models.DateTimeField(auto_now_add=True, null=True)
+
+    def save(self):
+        self.save()
+    
+    def delete(self):
+        self.delete()
 
     def __str__(self):
         return f'{self.user.username} Post'

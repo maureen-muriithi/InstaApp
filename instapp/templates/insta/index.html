@@ -15,10 +15,10 @@
 <body>
     {% block content %}
     {{ block.super }}
-    <div class="container-fluid" >
+    <div class="container" >
         <div class="row mt-3" style="justify-content: center" >
-            <div class="col-md-3"></div>
-            <div class="col-md-5" style="justify-content: center ; display: inline;">
+            <div class="col-md-2"></div>
+            <div class="col-md-7" style="justify-content: center ; display: inline;">
 
                 {% for user in users %}
 
@@ -27,7 +27,7 @@
 
                 {% endfor %}
             </div>
-            <div class="col-md-4" style="justify-content: end; ">
+            <div class="col-md-3" style="justify-content: end; ">
                 <div class="container" style="justify-content: end; margin-left: 120px;" >
                     <img class="rounded-circle" src="{{ user.profile.profile_picture.url }}" style="width: 70px; height: 70px; margin-right: 10%;">
                     <a href="{%url 'profile' user.username%}"><strong>{{ user.username}}</strong></a><br>
@@ -58,12 +58,38 @@
                     <div class="card-body">
                         <a href="{% url 'comment' post.id %}"><div class="card-text"
                             style = "background-image:url({{post.image.url}}); background-size:contain; position:sticky; background-repeat: no-repeat;">
-                            <img src="{{post.image.url}}" style="width:700px; height: 500px;" class="card-img img-responsive" width="100%" />
+                            <img src="{{post.image.url}}" style="width:700px; height: 400px;" class="card-img img-responsive" width="100%" />
                         </div></a>
                         <br>
-                        <h6><strong> {{ post.likes }}  likes </strong> </h6>
-                        <h5> <strong> {{ post.user}} </strong> - {{ post.caption }}</h5>
-                        <p style="font-size:small ;"><em>{{ post.time_posted|timesince}} ago</em></p>
+                      <div >
+                        <button class="btn btn-sm" type="submit" name="post_id" value="{{post.id}}">
+                            <a href="{% url 'comment' post.id %}"><i class="far fa-heart hearticon " aria-hidden="true" style=" font-size: 24px;"></i></a>
+                        </button>
+                        <button class="btn btn-sm" type="submit"><a href="{% url 'comment' post.id %}"><i
+                                class="far fa-comment hearticon mx-auto" aria-hidden="true" style="font-size: 24px;" ></i>
+                        </a></button>
+                      </div>
+                      <h6><strong> {{ post.likes }}  likes </strong> </h6>
+                      <h5> <strong> {{ post.user}} </strong> - {{ post.caption }}</h5>
+
+                      <span class="text-secondary viewall"><a href="{% url 'comment' post.id %}">View all {{post.comments.count}} comments</a></span>
+                      <div class="allcomments">
+                        {% for comment in post.comments.all %}
+                        <div class="comment">
+                          <p><strong>{{ comment.user.username }}</strong> <span class="text-secondary">{{ comment.comment }}</span></p> 
+                        </div>
+                        {% empty %}
+                        <p class="ml-3">No comments yet</p>
+                        {% endfor %}
+                        <form action="{% url 'comment' post.id %}" method="post" class="form-inline">
+                          {% csrf_token %}
+              
+                          <input type="text" name="comment" id="" class="form-control comment-val"  style="height: 30px; width: 600px; border-top-right-radius: 0; border-bottom-right-radius: 0" required placeholder="Add a comment...">
+                          <button type="submit" class="btn btn-sm btn-primary" style="height: 30px; border-top-left-radius: 0; border-bottom-left-radius: 0" >Add</button>
+                      </form>
+                      </div>
+                      <br>
+                      <p style="font-size:small ;"><em>{{ post.time_posted|timesince}} ago</em></p>
                     </div>
                     <br>
                 </div>

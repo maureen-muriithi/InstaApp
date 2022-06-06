@@ -1,4 +1,6 @@
 {% extends 'insta/base.html' %}
+{% load bootstrap4 %}
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -6,44 +8,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
+    <title>
+      <img src="../../media/images/insta.jpeg" alt="" style="height: 16px ; width: 16px; border-radius: 8px;"> Instagram    
+    </title>
 </head>
 <body>
     {% block content %}
-    
-    <div class="container" style="justify-content: center">
-        <div class="row mt-5" >
-            <div class="col-md-3"></div>
-            <div class="col-md-5" style="justify-content: center ; display: inline;">
-                {% for user in users %}
-                <img class="rounded-circle" src="{{ user.profile.profile_picture.url }}" style="width: 80px; height: 80px;margin-top: 0; border: 2px solid blue; margin: 1px;">
-                <a href="{%url 'profile' user.username%}"><strong>{{ user.username}}</strong></a>
-
-                {% endfor %}
-            </div>
-            <div class="col-md-4">
-                <div class="container">
-                    <img class="rounded-circle" src="{{ user.profile.profile_picture.url }}" style="width: 70px; height: 70px;margin-top: 0; border-top: 0;">
-                    <a href="{%url 'profile' user.username%}"><strong>{{ user.username}}</strong></a><br>
-                    <h4>{{ user.profile.name}}</h4>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{ block.super }}
+    <div class="container" >
+        
     {% for post in posts %}
 
     <br>
     <div class="container mb-4" >
         <div class="row">
                 <div class="col-md-1"></div>
-                <div class="col-md-8" style="border: 1px solid blue; justify-content: center; margin-bottom: 10px; ">
+                <div class="col-md-8" style="border: 1px solid blue; justify-content: center; margin-bottom: 10px; background-color: white;">
 
-                    <div class="card" style="background-color: lightcyan; border: 0;" >
+                    <div class="card" style="background-color: white; border: 0;" >
                         <br>
-                        <div class="card-title" style="background-color: lightcyan;">
+                        <div class="card-title" style="background-color: white; margin-left: 20px;">
                             {% if post.user.profile.profile_picture%}
-                                <img class="rounded-circle account-img" src="{{ post.user.profile.profile_picture.url}}" alt="" style="width: 40px; height: 40px;">
-                                <a href="{%url 'profile' post.user.username%}"><strong>{{ post.user.username}}</strong></a>
+                                <img class="rounded-circle account-img" src="{{ post.user.profile.profile_picture.url}}" alt="" style="width: 60px; height: 60px;">
+                                <a href="{%url 'profile' post.user.username%}"><strong style="font-style: italic; font-size: 20px;">{{ post.user.username}}</strong></a>
                             {%endif%}
                 
                         </div>
@@ -52,25 +39,43 @@
                     <div class="card-body">
                         <a href="{% url 'comment' post.id %}"><div class="card-text"
                             style = "background-image:url({{post.image.url}}); background-size:contain; position:sticky; background-repeat: no-repeat;">
-                            <img src="{{post.image.url}}" style="width:700px; height: 500px;" class="card-img img-responsive" width="100%" />
+                            <img src="{{post.image.url}}" style="width:700px; height: 400px;" class="card-img img-responsive" width="100%" />
                         </div></a>
-                        <h6><strong> {{ post.likes }}  likes </strong> </h6>
-                        <h5> <strong> {{ post.user}} </strong> - {{ post.caption }}</h5>
-                        <p style="font-size:small ;"><em>{{ post.time_posted|timesince}} ago</em></p>
+                        <br>
+                      <div >
+                        <button class="btn btn-sm" type="submit" name="post_id" value="{{post.id}}">
+                            <a href="{% url 'comment' post.id %}"><i class="far fa-heart hearticon " aria-hidden="true" style=" font-size: 24px;"></i></a>
+                        </button>
+                        <button class="btn btn-sm" type="submit"><a href="{% url 'comment' post.id %}"><i
+                                class="far fa-comment hearticon mx-auto" aria-hidden="true" style="font-size: 24px;" ></i>
+                        </a></button>
+                      </div>
+                      <h6><strong> {{ post.likes }}  likes </strong> </h6>
+                      <h5> <strong> {{ post.user}} </strong> - {{ post.caption }}</h5>
+
+                      <span class="text-secondary viewall"><a href="{% url 'comment' post.id %}">View all {{post.comments.count}} comments</a></span>
+                      <div class="allcomments">
+                        {% for comment in post.comments.all %}
+                        <div class="comment">
+                          <p><strong>{{ comment.user.username }}</strong> <span class="text-secondary">{{ comment.comment }}</span></p> 
+                        </div>
+                        {% empty %}
+                        <p class="ml-3">No comments yet</p>
+                        {% endfor %}
+                        <form action="{% url 'comment' post.id %}" method="post" class="form-inline">
+                          {% csrf_token %}
+              
+                          <input type="text" name="comment" id="" class="form-control comment-val"  style="height: 30px; width: 600px; border-top-right-radius: 0; border-bottom-right-radius: 0" required placeholder="Add a comment...">
+                          <button type="submit" class="btn btn-sm btn-primary" style="height: 30px; border-top-left-radius: 0; border-bottom-left-radius: 0" >Add</button>
+                      </form>
+                      </div>
+                      <br>
+                      <p style="font-size:small ;"><em>{{ post.time_posted|timesince}} ago</em></p>
                     </div>
-                    <div class="comments">
-                        {% for comment in image.comments.all %}
-                        <p class="actual-comment">{{comment.user.username}}: {{comment.comment}}</p>
-                        {% endfor %} </div>
-                    <form action="{% url 'comment' %}" method="post" class="form-inline">
-                        {% csrf_token %}
-                        <input type="text" name="comment" id="" class="form-control comment-val" required>
-                        <button type="submit" class="btn btn-sm btn-primary comment-btn" onclick="commenter('{{image.id}}')">Add</button>
-                    </form>
                     <br>
                 </div>
                 {% endfor %} 
-
+              
      
                 <div class="col-md-3"></div>   
                 <br>
