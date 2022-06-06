@@ -72,14 +72,14 @@ def profile(request, username):
     return render(request, 'insta/profile.html', args)
 
 @login_required(login_url='/accounts/login')
-def search_profile(request):
+def search_results(request):
     if 'search_user' in request.GET and request.GET['search_user']:
         name = request.GET.get("search_user")
-        search_results = Profile.search_profile(name)
-        print(search_results)
+        searched_results = Profile.search_profile(name)
+        print(searched_results)
         message = f'name'
         args = {
-            'search_results': search_results,
+            'searched_results': searched_results,
             'message': message
         }
         return render(request, 'insta/search_results.html', args)
