@@ -12,6 +12,7 @@ from .forms import UpdateProfileForm, CommentForm
 
 
 # Create your views here.
+@login_required(login_url = "accounts/login")
 def index(request):
     date = dt.date.today()
     posts = Post.objects.all()
