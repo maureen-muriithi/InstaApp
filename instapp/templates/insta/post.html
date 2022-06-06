@@ -36,7 +36,7 @@
     <div class="container mb-4" >
         <div class="row">
                 <div class="col-md-1"></div>
-                <div class="col-md-8" style="border: 1px solid blue; justify-content: center;">
+                <div class="col-md-8" style="border: 1px solid blue; justify-content: center; margin-bottom: 10px; ">
 
                     <div class="card" style="background-color: lightcyan; border: 0;" >
                         <br>
@@ -54,14 +54,14 @@
                             style = "background-image:url({{post.image.url}}); background-size:contain; position:sticky; background-repeat: no-repeat;">
                             <img src="{{post.image.url}}" style="width:700px; height: 500px;" class="card-img img-responsive" width="100%" />
                         </div></a>
-                        <h3>{{ post.caption }}</h3>
-                        <p><em>{{ post.time_posted|timesince}} ago</em></p>
+                        <h6><strong> {{ post.likes }}  likes </strong> </h6>
+                        <h5> <strong> {{ post.user}} </strong> - {{ post.caption }}</h5>
+                        <p style="font-size:small ;"><em>{{ post.time_posted|timesince}} ago</em></p>
                     </div>
                     <br>
                 </div>
-                <br>
                 {% endfor %} 
-                <br>
+
      
                 <div class="col-md-3"></div>   
                 <br>

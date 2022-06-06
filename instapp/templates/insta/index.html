@@ -8,7 +8,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
+    <title>
+      <img src="../../media/images/insta.jpeg" alt="" style="height: 16px ; width: 16px; border-radius: 8px;"> Instagram    
+    </title>
 </head>
 <body>
     {% block content %}
@@ -40,14 +42,14 @@
     <div class="container mb-4" >
         <div class="row">
                 <div class="col-md-1"></div>
-                <div class="col-md-8" style="border: 1px solid blue; justify-content: center;">
+                <div class="col-md-8" style="border: 1px solid blue; justify-content: center; margin-bottom: 10px; background-color: white;">
 
-                    <div class="card" style="background-color: lightcyan; border: 0;" >
+                    <div class="card" style="background-color: white; border: 0;" >
                         <br>
-                        <div class="card-title" style="background-color: lightcyan;">
+                        <div class="card-title" style="background-color: white; margin-left: 20px;">
                             {% if post.user.profile.profile_picture%}
-                                <img class="rounded-circle account-img" src="{{ post.user.profile.profile_picture.url}}" alt="" style="width: 40px; height: 40px;">
-                                <a href="{%url 'profile' post.user.username%}"><strong>{{ post.user.username}}</strong></a>
+                                <img class="rounded-circle account-img" src="{{ post.user.profile.profile_picture.url}}" alt="" style="width: 60px; height: 60px;">
+                                <a href="{%url 'profile' post.user.username%}"><strong style="font-style: italic; font-size: 20px;">{{ post.user.username}}</strong></a>
                             {%endif%}
                 
                         </div>
@@ -58,14 +60,15 @@
                             style = "background-image:url({{post.image.url}}); background-size:contain; position:sticky; background-repeat: no-repeat;">
                             <img src="{{post.image.url}}" style="width:700px; height: 500px;" class="card-img img-responsive" width="100%" />
                         </div></a>
-                        <h3>{{ post.caption }}</h3>
-                        <p><em>{{ post.time_posted|timesince}} ago</em></p>
+                        <br>
+                        <h6><strong> {{ post.likes }}  likes </strong> </h6>
+                        <h5> <strong> {{ post.user}} </strong> - {{ post.caption }}</h5>
+                        <p style="font-size:small ;"><em>{{ post.time_posted|timesince}} ago</em></p>
                     </div>
                     <br>
                 </div>
-                <br>
                 {% endfor %} 
-                <br>
+              
      
                 <div class="col-md-3"></div>   
                 <br>

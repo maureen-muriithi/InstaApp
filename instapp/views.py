@@ -13,7 +13,6 @@ from .forms import UpdateProfileForm, CommentForm
 
 # Create your views here.
 def index(request):
-    title = 'Welcome to Instagram'
     date = dt.date.today()
     posts = Post.objects.all()
     users = User.objects.exclude(id=request.user.id)
@@ -22,7 +21,6 @@ def index(request):
         "date": date,
         "posts": posts,
         "users": users,
-        "title": title,
     }
     return render(request, 'insta/index.html', args)
 
@@ -55,7 +53,6 @@ def display_posts(request):
 
 @login_required(login_url='/accounts/login/')
 def profile(request, username):
-    posts = request.user.profile.posts.all()
     user = User.objects.get(username=username)
     if not user:
         return redirect('home')
@@ -74,7 +71,6 @@ def profile(request, username):
         'username': username,
         'user': user,
         'profile': profile,
-        'posts': posts,
         'profile_form': profile_form,
     }
     print(profile.user.username)
