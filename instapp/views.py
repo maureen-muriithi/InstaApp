@@ -7,7 +7,7 @@ from .email import send_welcome_email
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
-from .forms import UpdateProfileForm, CommentForm
+from .forms import UpdateProfileForm, CommentForm, NewPostForm
 
 
 
@@ -113,5 +113,22 @@ def add_comment(request, post_id):
     }
     return render(request, 'insta/index.html', args)
 
+@login_required(login_url='accounts/login/')
+def add_post(request):
+    user = request.user
+    if request.method == "POST":
+        form = NewPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit = False)
+            post.user = user
+            post.save()
+            return redirect("index")
+    else:
+        form = NewPostForm()
+        args = {
+          "form": form,  
+        }
+
+    return render(request, "insta/add_post.html", args)
 
 
