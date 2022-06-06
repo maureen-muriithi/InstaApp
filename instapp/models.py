@@ -26,6 +26,13 @@ class Post(models.Model):
     def delete_image(self):
         self.delete()
     
+    @property
+    def get_all_comments(self):
+        return self.comments.all()
+    
+    class Meta:
+        ordering = ['time_posted']
+    
     def __str__(self):
         return self.name
     
@@ -44,7 +51,7 @@ class Comment(models.Model):
     time_posted = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return f'{self.user.name} Post'
+        return f'{self.user.username} Post'
 
 class Profile(models.Model):
     '''
