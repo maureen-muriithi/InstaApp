@@ -54,6 +54,9 @@
                             {% if post.user.profile.profile_picture%}
                                 <img class="rounded-circle account-img" src="{{ post.user.profile.profile_picture.url}}" alt="" style="width: 60px; height: 60px;">
                                 <a href="{%url 'profile' post.user.username%}"><strong style="font-style: italic; font-size: 20px;">{{ post.user.username}}</strong></a>
+                            {% else %}
+                              <img class="rounded-circle account-img" src="../../../media/images/insta.jpeg" alt="" style="width: 60px; height: 60px;">
+                              <a href="{%url 'profile' post.user.username%}"><strong style="font-style: italic; font-size: 20px;">{{ post.user.username}}</strong></a>
                             {%endif%}
                 
                         </div>
