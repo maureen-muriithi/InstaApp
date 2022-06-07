@@ -58,7 +58,7 @@
     </div>
     <hr class="mt-4">
     <div class="card-columns">
-        {% for post in posts %}
+        {% for post in user.posts.all %}
             <div class="card">
                 <div class="card-body">
                     <img src="{{post.image.url}}" alt="{{post.caption}}" class="card-img">

@@ -100,6 +100,13 @@ def profile(request, username):
     print(profile.profile_picture)
     return render(request, 'insta/profile.html', args)
 
+def user_profile(request):
+    user = request.user
+    return render(request, "insta/user_profile.html", {"user":user, "current_user":request.user})  
+
+# def update_profile(request):
+     
+
 @login_required(login_url='/accounts/login')
 def search_results(request):
     if 'search_user' in request.GET and request.GET['search_user']:
