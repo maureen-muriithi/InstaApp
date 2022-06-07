@@ -29,7 +29,11 @@
             </div>
             <div class="col-md-3" style="justify-content: end; ">
                 <div class="container" style="justify-content: end; margin-left: 120px;" >
-                    <img class="rounded-circle" src="{{ user.profile.profile_picture.url }}" style="width: 70px; height: 70px; margin-right: 10%;">
+                  {% if user.profile.profile_picture%}
+                  <img class="rounded-circle" src="{{ user.profile.profile_picture.url }}" style="width: 70px; height: 70px; margin-right: 10%;">
+                  {% else %}
+                  <img class="rounded-circle" src="../../../media/images/insta.jpeg" style="width: 70px; height: 70px; margin-right: 10%;">
+                  {%endif%}
                     <a href="{%url 'profile' user.username%}"><strong>{{ user.username}}</strong></a><br>
                     <h4>{{ user.profile.name}}</h4>
                 </div>
