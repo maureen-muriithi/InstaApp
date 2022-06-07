@@ -28,7 +28,7 @@ def index(request):
     }
     return render(request, 'insta/index.html', args)
 
-def register(request):
+def register_user(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -50,7 +50,7 @@ def login_user(request):
           if user is not None:
             login(request, user)
             messages.info(request, f"You are now logged in as {username}.")
-            return redirect('index/')
+            return redirect("index")
           else:
             messages.error(request,"Invalid username or password.")
       else:
