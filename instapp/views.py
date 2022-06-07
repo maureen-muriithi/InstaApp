@@ -5,9 +5,11 @@ import datetime as dt
 from .models import Post, Profile
 from .email import send_welcome_email
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import messages
 from django.contrib.auth.models import User
-from .forms import UpdateProfileForm, CommentForm, NewPostForm
+from .forms import UpdateProfileForm, CommentForm, NewPostForm, RegisterForm
 
 
 
@@ -26,19 +28,38 @@ def index(request):
     }
     return render(request, 'insta/index.html', args)
 
-# def register(request):
-#     if request.method == 'POST':
-#         form = RegisterForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             username = form.cleaned_data.get('username')
-#             original_password = form.cleaned_data.get('password1')
-#             user = authenticate(username=username, password=original_password)
-#             login(request, user)
-#             return redirect('index')
-#     else:
-#         form = RegisterForm()
-#     return render(request, 'django_registration/registration_form.html', {'form': form})
+def register(request):
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+          user = form.save()
+          login(request, user)
+          messages.success(request, "Registration successful." )
+        return redirect("/login")
+    messages.error(request, "Unsuccessful registration. Invalid information.")
+    form = RegisterForm()
+    return render(request=request, template_name="django_registration/registration_form.html", context= {'form': form})
+
+def login(request):
+  if request.method == "POST":
+      form = AuthenticationForm(request, data=request.POST)
+      if form.is_valid():
+          username = form.cleaned_data.get('username')
+          password = form.cleaned_data.get('password')
+          user = authenticate(username=username, password=password)
+          if user is not None:
+            login(request, user)
+            messages.info(request, f"You are now logged in as {username}.")
+            return redirect('index/')
+          else:
+            messages.error(request,"Invalid username or password.")
+      else:
+          messages.error(request,"Invalid username or password.")
+  form = AuthenticationForm()
+
+  return render(request=request, template_name="registration/login.html", context={"form":form})
+
+
 
 @login_required(login_url='/accounts/login/')
 def display_posts(request):
@@ -132,5 +153,10 @@ def add_post(request):
         }
 
     return render(request, "insta/add_post.html", args)
+
+# def logout_request(request):
+#     logout(request)
+#     messages.info(request, "You have successfully logged out.") 
+#     return render( request, "registration/login.html")
 
 
