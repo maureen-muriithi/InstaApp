@@ -88,7 +88,7 @@ def profile(request, username):
         profile_form = UpdateProfileForm(instance=request.user.profile)
 
 
-    profile = Profile.objects.get(user=user)
+        profile = Profile.objects.get(user=user)
 
     args = {
         'username': username,

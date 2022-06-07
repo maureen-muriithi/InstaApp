@@ -50,7 +50,7 @@
       <ul class="list-unstyled" >
         <li class="dropdown">
           <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">
-            {% if user.profile.pic%}
+            {% if user.profile.profile_picture%}
             <img src="{{ user.profile.profile_picture.url }}" alt="profile" class="rounded-circle" width="32" height="32"/>
             {% else %}
             <img src="../../../media/images/insta.jpeg" alt="profile" class="rounded-circle" width="32" height="32"/>
